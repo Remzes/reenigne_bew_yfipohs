@@ -1,7 +1,10 @@
-const app = require('express')()
-const bodyParser = require('body-parser')
-const expressSession = require('express-session')
-const cookieParser = require('cookie-parser')
+import express from 'express'
+import bodyParser from 'body-parser'
+import expressSession from 'express-session'
+import cookieParser from 'cookie-parser'
+import searchRouter from './routes/search'
+
+const app = express()
 
 // Body Parser
 app.use(bodyParser.json())
@@ -15,6 +18,9 @@ app.use(expressSession({
 
 // Cookie Parser
 app.use(cookieParser())
+
+//Routes
+app.use('/api/wizard', searchRouter)
 
 app.listen(3001, () => {
   console.log('Server running on PORT 3001')
