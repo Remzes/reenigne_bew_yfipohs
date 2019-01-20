@@ -1,9 +1,9 @@
 import { ofType } from 'redux-observable'
-import { exhaustMap, switchMap, pluck } from 'rxjs/operators'
-import { of, from } from 'rxjs'
+import { exhaustMap, switchMap, pluck, takeUntil } from 'rxjs/operators'
+import { of, from, Observable } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
 
-const appName = "jbfi"
+const appName = "wizard"
 export const moduleName = "search"
 
 export const SEARCH_REQUEST = `${appName}/${moduleName}/SEARCH_REQUEST`
@@ -15,37 +15,38 @@ const initial = {
   fetched: true,
   error: null,
   success: false,
-  message: false
+  message: false,
+  data: []
 }
 
 export default (state = initial, action) => {
   const { type, payload } = action
-  console.log(type)
   switch (type) {
     case SEARCH_REQUEST:
-      break;
+      return { ...state, fetching: true, fetched: false, error: null, success: false, data: [], message: '' }
     case SEARCH_FETCHED:
-      break;
+      return { ...state, fetching: false, fetched: true, error: null, success: true, data: payload.data, message: '' }
     case SEARCH_ERROR:
-      break;
+      return { ...state, fetching: false, fetched: true, error: true, success: false, data: [], message: payload.err }
+    default:
+      return state
   }
 }
 
 // ACTIONS
-export const requestSearch = text => ({ type: SEARCH_REQUEST, text })
+export const requestSearch = (text = '') => ({ type: SEARCH_REQUEST, text })
 
 // EPICS
 export const fetchSearch = action$ => {
-
   return action$.pipe(
     ofType(SEARCH_REQUEST),
-    exhaustMap(action => {
-      ajax.get().pipe(
+    exhaustMap(action => (
+      ajax.get(`/api/wizard?search=${action.text}`).pipe(
         pluck('response'),
         switchMap(res => {
-
-        })
+          return of({ type: SEARCH_FETCHED, payload: {data: res.data} })
+        }),
       )
-    })
+    ))
   )
 }

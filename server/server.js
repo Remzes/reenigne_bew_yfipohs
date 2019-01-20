@@ -19,6 +19,16 @@ app.use(expressSession({
 // Cookie Parser
 app.use(cookieParser())
 
+app.use((err, req, res, next) => {
+  if (err) {
+    const title = err.stack.split('\n')[0]
+    res.status(500).send({ success: false, message: title })
+  } else {
+    next()
+  }
+})
+
+
 //Routes
 app.use('/api/wizard', searchRouter)
 
