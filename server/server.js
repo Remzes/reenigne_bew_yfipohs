@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 import expressSession from 'express-session'
@@ -30,7 +31,6 @@ app.use((err, req, res, next) => {
     next()
   }
 })
-
 
 //Routes
 app.use('/api/wizard', searchRouter)

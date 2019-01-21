@@ -19,5 +19,5 @@ export const networkOffline = () =>
 export const networkOnline = () =>
     fromEvent(window, 'online').pipe(
       map(e => ({ type: NETWORK_ONLINE })),
-      map(e => requestNotification("message", false, 20, "You are back!"))
+      map(e => requestNotification("message", true, 20, "You are back!"))
     )
