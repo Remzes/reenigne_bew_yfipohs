@@ -32,10 +32,10 @@ app.use((err, req, res, next) => {
   }
 })
 
-app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')))
-
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'))
+app.use(express.static(path.resolve(__dirname, '..', 'app', 'build')))
+//
+app.get('/', function (request, response){
+  response.sendFile(path.resolve(__dirname, '..', 'app', 'build', 'index.html'))
 })
 
 //Routes

@@ -79,7 +79,7 @@ export const fetchSearch = action$ => {
       ajax.get(`/api/wizard?search=${action.text}`).pipe(
         pluck('response'),
         switchMap(res => {
-          return of({ type: SEARCH_FETCHED, payload: {data: res.data} })
+          return of({ type: SEARCH_FETCHED, payload: {data: res ? res.data: []} })
         }),
       )
     ))
