@@ -27,6 +27,7 @@ Before clicking on the button with some random text in the input field, follow t
 - Your data in a safe place - MongoDB
 - If you go offlie, the application will let you know that you are in offline, and when you are back!
 - Docker will help you keep you Client/Server/Database in a different place
+- Retina free - the application will have the same layout and the size regardless the stand-alone platform, which you will chose (but I did not have time to make it compatible with mobile diveces :( )
 
 ## Design
 
