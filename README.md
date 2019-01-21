@@ -1,6 +1,7 @@
 # Repo: reenigne_bew_yfipohs (Web Engineer Challenge - Summer 2019)
 
 Build a web app to search for waste items using the Toronto Waste Wizard database, and save frequently used ones.
+Deployed version: https://fierce-fjord-57730.herokuapp.com/
 
 ## How to use
 
