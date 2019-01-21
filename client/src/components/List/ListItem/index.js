@@ -16,10 +16,8 @@ class ListItem extends React.Component {
       const parser = Parser()
       description = parser.parse(html)
     }
-
     return (
-      <section className="list__item">
-        {item.isFav ? 'FAVORITE' : "NOT FAVOURITE"}
+      <section className="lists__list__item">
         <Title key={item.isFav} isFav={item.isFav} title={item.title} add={() => requestAddFavourite(item)} remove={() => requestRemoveFavourite(item.title)} />
         <Description text={description} />
       </section>

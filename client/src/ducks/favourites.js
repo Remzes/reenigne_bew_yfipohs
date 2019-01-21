@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { ofType } from 'redux-observable'
 import { exhaustMap, switchMap, pluck, takeUntil, catchError } from 'rxjs/operators'
 import { of, from, Observable, merge } from 'rxjs'
@@ -12,7 +13,6 @@ export const FAVOURITES_FETCHED = `${appName}/${moduleName}/FAVOURITES_FETCHED`
 export const FAVOURITES_ERROR = `${appName}/${moduleName}/FAVOURITES_ERROR`
 export const FAVOURITES_ADD_REQUEST = `${appName}/${moduleName}/FAVOURITES_ADD_REQUEST`
 export const FAVOURITES_ADD_FETCHED = `${appName}/${moduleName}/FAVOURITES_ADD_FETCHED`
-export const FAVOURITES_ADD_FETCHED_FURTHER_UPDATE = `${appName}/${moduleName}/FAVOURITES_ADD_FETCHED_FURTHER_UPDATE`
 export const FAVOURITES_ADD_ERROR = `${appName}/${moduleName}/FAVOURITES_ADD_ERROR`
 export const FAVOURITES_REMOVE_REQUEST = `${appName}/${moduleName}/FAVOURITES_REMOVE_REQUEST`
 export const FAVOURITES_REMOVE_FETCHED = `${appName}/${moduleName}/FAVOURITES_REMOVE_FETCHED`
@@ -42,7 +42,7 @@ export default (state = initial, action) => {
     case FAVOURITES_ADD_REQUEST:
       return { ...state, fetching: true, fetched: false, error: null, success: false, data: state.data, message: '' }
     case FAVOURITES_ADD_FETCHED:
-      data = [...state.data]
+      data = _.cloneDeep(state.data)
       const item = {...payload.item, isFav: true}
       data.push(item)
       return { ...state, fetching: false, fetched: true, error: null, success: true, data, message: payload.message }
@@ -52,12 +52,12 @@ export default (state = initial, action) => {
     case FAVOURITES_REMOVE_REQUEST:
       return { ...state, fetching: true, fetched: false, error: null, success: false, data: state.data, message: '' }
     case FAVOURITES_REMOVE_FETCHED:
-      data = [...state.data]
+      data = _.cloneDeep(state.data)
       const index = data.findIndex(e => e.title === payload.id)
       data.splice(index, 1)
       return { ...state, fetching: false, fetched: true, error: null, success: true, data, message: '' }
     case FAVOURITES_REMOVE_ERROR:
-      return { ...state, fetching: true, fetched: false, error: null, success: false, data: state.data, message: '' }
+      return { ...state, fetching: false, fetched: true, error: null, success: false, data: state.data, message: '' }
     default:
       return state
   }
@@ -94,7 +94,6 @@ export const fetchAddFavourite = action$ => {
         switchMap(res => {
           return merge(
             of({ type: FAVOURITES_ADD_FETCHED, payload: res }),
-            of({ type: FAVOURITES_ADD_FETCHED_FURTHER_UPDATE, payload: res }),
             of(requestNotification('notification', true, 3, "You successfully added new item!"))
           )
         }),

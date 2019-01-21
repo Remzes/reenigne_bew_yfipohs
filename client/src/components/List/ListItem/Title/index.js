@@ -1,14 +1,15 @@
 import React from 'react'
+import { Icon } from 'antd'
 
 export default React.memo(({isFav, title, add, remove}) => {
   return (
-    <section className="item__title">
+    <section className="lists__list__item__title">
       {
         isFav
-          ? <span className="item__title__icon" onClick={remove}>UNSELECT<br/></span>
-          : <span className="item__title__icon" onClick={add}>SELECT<br/></span>
+          ? <Icon className="lists__list__item__title__icon -selected" type="star" theme="filled" onClick={remove} />
+          : <Icon className="lists__list__item__title__icon" type="star" theme="filled" onClick={add} />
       }
-      <span className="item__title__text">{title}</span>
+      <span className="lists__list__item__title__text">{title}</span>
     </section>
   )
 })
