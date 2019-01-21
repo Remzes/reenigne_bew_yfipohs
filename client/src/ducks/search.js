@@ -2,6 +2,7 @@ import { ofType } from 'redux-observable'
 import { exhaustMap, switchMap, pluck, takeUntil } from 'rxjs/operators'
 import { of, from, Observable } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
+import { FAVOURITES_ADD_FETCHED_FURTHER_UPDATE } from './favourites'
 
 const appName = "wizard"
 export const moduleName = "search"
@@ -21,6 +22,7 @@ const initial = {
 
 export default (state = initial, action) => {
   const { type, payload } = action
+  let data = []
   switch (type) {
     case SEARCH_REQUEST:
       return { ...state, fetching: true, fetched: false, error: null, success: false, data: [], message: '' }
@@ -28,6 +30,12 @@ export default (state = initial, action) => {
       return { ...state, fetching: false, fetched: true, error: null, success: true, data: payload.data, message: '' }
     case SEARCH_ERROR:
       return { ...state, fetching: false, fetched: true, error: true, success: false, data: [], message: payload.err }
+    case FAVOURITES_ADD_FETCHED_FURTHER_UPDATE:
+      console.log("I WILL CHANGE RIGHT NOW!")
+      data = [...state.data]
+      const index = data.findIndex(e => e.title === payload.item.title)
+      data[index].isFav = true
+      return { ...state, data }
     default:
       return state
   }

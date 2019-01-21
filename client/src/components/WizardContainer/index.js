@@ -13,12 +13,15 @@ class WizardContainer extends React.Component {
         <Title />
         <Search />
         <section className="lists">
-          {search && <List list={search} />}
-          {favourites && <List isFav={true} list={favourites} />}
+          {search.data.length > 0 && <List list={search} />}
+          {favourites.data.length > 0 && <List isFav={true} list={favourites} />}
         </section>
       </section>
     )
   }
 }
 
-export default connect(state => ({search: search(state), favourites: favourites(state)}))(WizardContainer)
+export default connect(state => ({
+  search: state.search,
+  favourites: favourites(state)}
+))(WizardContainer)

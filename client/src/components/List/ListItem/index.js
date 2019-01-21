@@ -9,7 +9,7 @@ import { requestAddFavourite, requestRemoveFavourite } from '../../../ducks/favo
 class ListItem extends React.Component {
 
   render() {
-    const { item } = this.props
+    const { item, requestAddFavourite, requestRemoveFavourite } = this.props
     let description
     if (item.body) {
       let html = he.decode(item.body)
@@ -19,7 +19,8 @@ class ListItem extends React.Component {
 
     return (
       <section className="list__item">
-        <Title isFav={item.isFav} title={item.title} add={() => requestAddFavourite(item)} remove={requestRemoveFavourite(item.title)} />
+        {item.isFav ? 'FAVORITE' : "NOT FAVOURITE"}
+        <Title key={item.isFav} isFav={item.isFav} title={item.title} add={() => requestAddFavourite(item)} remove={() => requestRemoveFavourite(item.title)} />
         <Description text={description} />
       </section>
     )

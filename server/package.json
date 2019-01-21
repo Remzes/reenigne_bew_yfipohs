@@ -24,6 +24,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "lodash": "^4.17.11",
+    "mongoose": "^5.4.5",
     "node-cache": "^4.2.0"
   }
 }

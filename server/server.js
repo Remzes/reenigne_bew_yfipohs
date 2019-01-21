@@ -3,7 +3,10 @@ import bodyParser from 'body-parser'
 import expressSession from 'express-session'
 import cookieParser from 'cookie-parser'
 import searchRouter from './routes/search'
+import favouritesRouter from './routes/favourites'
+import dbInit from './db'
 
+dbInit()
 const app = express()
 
 // Body Parser
@@ -31,6 +34,7 @@ app.use((err, req, res, next) => {
 
 //Routes
 app.use('/api/wizard', searchRouter)
+app.use('/api/favourites', favouritesRouter)
 
 app.listen(3001, () => {
   console.log('Server running on PORT 3001')
