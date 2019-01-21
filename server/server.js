@@ -32,6 +32,12 @@ app.use((err, req, res, next) => {
   }
 })
 
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')))
+
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'))
+})
+
 //Routes
 app.use('/api/wizard', searchRouter)
 app.use('/api/favourites', favouritesRouter)
